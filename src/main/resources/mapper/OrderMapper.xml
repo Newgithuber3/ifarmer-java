@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.Order">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="ispay" jdbcType="BIT" property="ispay" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="buyername" jdbcType="VARCHAR" property="buyername" />
+    <result column="buyerphone" jdbcType="VARCHAR" property="buyerphone" />
+    <result column="buyeraddress" jdbcType="INTEGER" property="buyeraddress" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="productid" jdbcType="INTEGER" property="productid"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, status, ispay, money, buyername, buyerphone, buyeraddress, createtime, updatetime,productid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from com_order_main
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectOrderListByCondition" parameterType="cn.tjau.ifarmer.domain.utilEntity.OrderCondition" resultMap="BaseResultMap">
+    select *
+    from com_order_main o left join com_product_main p on o.productid=p.id
+    where 1 = 1
+    <if test="isPay != null ">
+      AND o.ispay = #{isPay}
+    </if>
+    <if test="buyerName != null ">
+      AND o.buyername like concat ('%',#{buyerName},'%')
+    </if>
+    <if test="productName != null ">
+      AND p.name  like concat ('%',#{productName}, '%')
+    </if>
+    <if test="createTime != null ">
+      AND date(createtime)= #{createTime}
+    </if>
+  </select>
+  <select id="selectByUsernameAndTime"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from com_order_main
+    where buyername = #{0} and createtime = #{1}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from com_order_main
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.Order">
+    insert into com_order_main
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="ispay != null">
+        ispay,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="buyername != null">
+        buyername,
+      </if>
+      <if test="buyerphone != null">
+        buyerphone,
+      </if>
+      <if test="buyeraddress != null">
+        buyeraddress,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="productid != null">
+        productid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ispay != null">
+        #{ispay,jdbcType=BIT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="buyername != null">
+        #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerphone != null">
+        #{buyerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="buyeraddress != null">
+        #{buyeraddress,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productid != null">
+        #{productid},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.tjau.ifarmer.domain.Order">
+    update com_order_main
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ispay != null">
+        ispay = #{ispay,jdbcType=BIT},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="buyername != null">
+        buyername = #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerphone != null">
+        buyerphone = #{buyerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="buyeraddress != null">
+        buyeraddress = #{buyeraddress,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productid != null">
+        productid = #{productid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

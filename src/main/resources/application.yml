@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /ifarmer
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/ifarmer?serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: root
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  type-aliases-package: cn.tjau.ifarmer.domian
+  mapper-locations: classpath:mapper/*Mapper.xml

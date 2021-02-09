@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.ProductDetailMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.ProductDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="score" jdbcType="REAL" property="score" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="imageurl" jdbcType="VARCHAR" property="imageurl" />
+    <result column="productid" jdbcType="INTEGER" property="productid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, description, unit, price, number, score, status, imageurl, productid
+  </sql>
+  <select id="selectByProductID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from com_product_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByProductID" parameterType="java.lang.Integer">
+    delete from com_product_detail
+    where productid = #{productid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.tjau.ifarmer.domain.ProductDetail">
+    insert into com_product_detail (id, name, description, 
+      unit, price, number, 
+      score, status, imageurl, 
+      productid)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{number,jdbcType=INTEGER}, 
+      #{score,jdbcType=REAL}, #{status,jdbcType=VARCHAR}, #{imageurl,jdbcType=VARCHAR}, 
+      #{productid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.ProductDetail">
+    insert into com_product_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="imageurl != null">
+        imageurl,
+      </if>
+      <if test="productid != null">
+        productid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=REAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="imageurl != null">
+        #{imageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null">
+        #{productid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByProductIDSelective" parameterType="cn.tjau.ifarmer.domain.ProductDetail">
+    update com_product_detail
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=REAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="imageurl != null">
+        imageurl = #{imageurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productid = #{productid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByProductID" parameterType="cn.tjau.ifarmer.domain.ProductDetail">
+    update com_product_detail
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      number = #{number,jdbcType=INTEGER},
+      score = #{score,jdbcType=REAL},
+      status = #{status,jdbcType=VARCHAR},
+      imageurl = #{imageurl,jdbcType=VARCHAR}
+    where productid = #{productid,jdbcType=INTEGER}
+  </update>
+</mapper>

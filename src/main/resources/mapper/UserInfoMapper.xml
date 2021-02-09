@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.UserInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="gender" jdbcType="CHAR" property="gender"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , username, nickname, telephone, gender, birthday, address, uid
+    </sql>
+    <select id="selectByUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_user_info
+        where uid = #{uid,jdbcType=INTEGER}
+    </select>
+    <select id="queryUserList" parameterType="cn.tjau.ifarmer.domain.UserInfo" resultMap="BaseResultMap">
+        select * from cl_user_info
+        where 1=1
+        <if test="id != null ">
+            AND id = #{id}
+        </if>
+        <if test="username != null ">
+            AND username like concat ('%',#{username},'%')
+        </if>
+        <if test="nickname != null ">
+            AND nickname like concat ('%',#{nickname},'%')
+        </if>
+        <if test="telephone != null ">
+            AND telephone like concat ('%',#{telephone},'%')
+        </if>
+        <if test="gender != null ">
+            AND gender like concat ('%',#{gender},'%')
+        </if>
+        <if test="birthday != null">
+            AND birthday like concat ('%',#{birthday},'%')
+        </if>
+        <if test="address != null ">
+            AND address like concat ('%', #{address},'%')
+        </if>
+        <if test="uid != null  ">
+            AND uid = #{uid}
+        </if>
+    </select>
+    <delete id="deleteByUid" parameterType="java.lang.Integer">
+        delete
+        from cl_user_info
+        where uid = #{uid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.tjau.ifarmer.domain.UserInfo">
+        insert into cl_user_info (id, username, nickname,
+                                  telephone, gender, birthday,
+                                  address, uid)
+        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+                #{telephone,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{birthday,jdbcType=DATE},
+                #{address,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.UserInfo">
+        insert into cl_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="uid != null">
+                uid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=CHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByUidSelective" parameterType="cn.tjau.ifarmer.domain.UserInfo">
+        update cl_user_info
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=CHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByUid" parameterType="cn.tjau.ifarmer.domain.UserInfo">
+        update cl_user_info
+        set username  = #{username,jdbcType=VARCHAR},
+            nickname  = #{nickname,jdbcType=VARCHAR},
+            telephone = #{telephone,jdbcType=VARCHAR},
+            gender    = #{gender,jdbcType=CHAR},
+            birthday  = #{birthday,jdbcType=DATE},
+            address   = #{address,jdbcType=VARCHAR},
+            where uid = #{uid,jdbcType=INTEGER}
+    </update>
+</mapper>

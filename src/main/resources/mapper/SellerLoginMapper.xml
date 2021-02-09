@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.SellerLoginMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.SellerLogin">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="status_info" jdbcType="VARCHAR" property="statusInfo" />
+  </resultMap>
+  <resultMap id="SellerMap" type="cn.tjau.ifarmer.domain.SellerLogin">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="status_info" jdbcType="VARCHAR" property="statusInfo" />
+    <collection property="sellerInfo" ofType="cn.tjau.ifarmer.domain.SellerInfo">
+      <result column="_id" jdbcType="INTEGER" property="id" />
+      <result column="storename" jdbcType="VARCHAR" property="storename" />
+      <result column="score" jdbcType="REAL" property="score" />
+      <result column="regist_time" jdbcType="DATE" property="registTime" />
+      <result column="hostid" jdbcType="INTEGER" property="hostid" />
+      <result column="storeid" jdbcType="INTEGER" property="storeid" />
+      <result column="turnover" jdbcType="DOUBLE" property="turnover" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, password, status, status_info
+  </sql>
+  <select id="selectByID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+      l.id, l.name, l.password, l.status, l.status_info,
+      i.id as _id,i.storename,i.score,i.regist_time,i.hostid,i.storeid,i.turnover
+    from mer_seller_login l left join mer_seller_Info i on l.id=i.storeid
+    where l.id= #{id}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="SellerMap">
+    select
+      l.id, l.name, l.password, l.status, l.status_info,
+      i.id as _id,i.storename,i.score,i.regist_time,i.hostid,i.storeid,i.turnover
+    from mer_seller_login l left join mer_seller_Info i on l.id=i.storeid
+    where l.name like concat ('%',#{name},'%')
+  </select>
+  <select id="selectByNameAndPassword" resultMap="SellerMap">
+    select
+      l.id, l.name, l.password, l.status, l.status_info,
+      i.id as _id,i.storename,i.score,i.regist_time,i.hostid,i.storeid,i.turnover
+    from mer_seller_login l left join mer_seller_Info i on l.id=i.storeid
+    where l.name = #{0} and l.password = #{1}
+  </select>
+  <select id="selectSellerList"  resultMap="SellerMap">
+    select
+      l.id, l.name, l.password, l.status, l.status_info,
+      i.id as _id,i.storename,i.score,i.regist_time,i.hostid,i.storeid,i.turnover
+    from mer_seller_login l left join mer_seller_Info i on l.id=i.storeid
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mer_seller_login
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.tjau.ifarmer.domain.SellerLogin">
+    insert into mer_seller_login (id, name, password, 
+      status, status_info)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{statusInfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.SellerLogin">
+    insert into mer_seller_login
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="statusInfo != null">
+        status_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusInfo != null">
+        #{statusInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.tjau.ifarmer.domain.SellerLogin">
+    update mer_seller_login
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="statusInfo != null">
+        status_info = #{statusInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.tjau.ifarmer.domain.SellerLogin">
+    update mer_seller_login
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      status_info = #{statusInfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

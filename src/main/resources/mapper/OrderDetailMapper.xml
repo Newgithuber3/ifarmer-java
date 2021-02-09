@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.OrderDetailMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.OrderDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="productid" jdbcType="INTEGER" property="productid" />
+    <result column="productname" jdbcType="VARCHAR" property="productname" />
+    <result column="productnumber" jdbcType="INTEGER" property="productnumber" />
+    <result column="productprice" jdbcType="DOUBLE" property="productprice" />
+    <result column="productimage_url" jdbcType="VARCHAR" property="productimageUrl" />
+    <result column="orderid" jdbcType="BIGINT" property="orderid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, productid, productname, productnumber, productprice, productimage_url, orderid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from com_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByOrderID" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from com_order_detail
+    where orderid = #{orderid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from com_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.tjau.ifarmer.domain.OrderDetail">
+    insert into com_order_detail (id, productid, productname, 
+      productnumber, productprice, productimage_url, 
+      orderid)
+    values (#{id,jdbcType=BIGINT}, #{productid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, 
+      #{productnumber,jdbcType=INTEGER}, #{productprice,jdbcType=DOUBLE}, #{productimageUrl,jdbcType=VARCHAR}, 
+      #{orderid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.OrderDetail">
+    insert into com_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productid != null">
+        productid,
+      </if>
+      <if test="productname != null">
+        productname,
+      </if>
+      <if test="productnumber != null">
+        productnumber,
+      </if>
+      <if test="productprice != null">
+        productprice,
+      </if>
+      <if test="productimageUrl != null">
+        productimage_url,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="productid != null">
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productnumber != null">
+        #{productnumber,jdbcType=INTEGER},
+      </if>
+      <if test="productprice != null">
+        #{productprice,jdbcType=DOUBLE},
+      </if>
+      <if test="productimageUrl != null">
+        #{productimageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.tjau.ifarmer.domain.OrderDetail">
+    update com_order_detail
+    <set>
+      <if test="productid != null">
+        productid = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null">
+        productname = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productnumber != null">
+        productnumber = #{productnumber,jdbcType=INTEGER},
+      </if>
+      <if test="productprice != null">
+        productprice = #{productprice,jdbcType=DOUBLE},
+      </if>
+      <if test="productimageUrl != null">
+        productimage_url = #{productimageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.tjau.ifarmer.domain.OrderDetail">
+    update com_order_detail
+    set productid = #{productid,jdbcType=INTEGER},
+      productname = #{productname,jdbcType=VARCHAR},
+      productnumber = #{productnumber,jdbcType=INTEGER},
+      productprice = #{productprice,jdbcType=DOUBLE},
+      productimage_url = #{productimageUrl,jdbcType=VARCHAR},
+      orderid = #{orderid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

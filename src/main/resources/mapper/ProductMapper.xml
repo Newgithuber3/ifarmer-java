@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.ProductMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="storeid" jdbcType="INTEGER" property="storeid" />
+  </resultMap>
+  <resultMap id="Product" type="cn.tjau.ifarmer.domain.Product" >
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="storeid" jdbcType="INTEGER" property="storeid" />
+    <collection property="productCategory" ofType="cn.tjau.ifarmer.domain.ProductCategory">
+      <result column="cid" jdbcType="INTEGER" property="id" />
+      <result column="cname" jdbcType="VARCHAR" property="name" />
+      <result column="parentid" jdbcType="INTEGER" property="parentid" />
+    </collection>
+    <collection property="productParameter" ofType="cn.tjau.ifarmer.domain.ProductParameter">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="origin" jdbcType="VARCHAR" property="origin" />
+      <result column="production_date" jdbcType="DATE" property="productionDate" />
+      <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+      <result column="note" jdbcType="VARCHAR" property="note" />
+      <result column="productid" jdbcType="INTEGER" property="productid" />
+    </collection>
+    <collection property="productDetail" ofType="cn.tjau.ifarmer.domain.ProductDetail">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="description" jdbcType="VARCHAR" property="description" />
+      <result column="unit" jdbcType="VARCHAR" property="unit" />
+      <result column="price" jdbcType="DOUBLE" property="price" />
+      <result column="number" jdbcType="INTEGER" property="number" />
+      <result column="score" jdbcType="REAL" property="score" />
+      <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="imageurl" jdbcType="VARCHAR" property="imageurl" />
+      <result column="productid" jdbcType="INTEGER" property="productid" />
+    </collection>
+    <collection property="seller" ofType="cn.tjau.ifarmer.domain.SellerInfo">
+      <result column="id" jdbcType="INTEGER" property="id" />
+      <result column="sname" jdbcType="VARCHAR" property="storename" />
+      <result column="sscore" jdbcType="REAL" property="score" />
+      <result column="regist_time" jdbcType="DATE" property="registTime" />
+      <result column="hostid" jdbcType="INTEGER" property="hostid" />
+      <result column="storeid" jdbcType="INTEGER" property="storeid" />
+      <result column="turnover" jdbcType="DOUBLE" property="turnover" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, category, storeid
+  </sql>
+  <select id="queryProductByID" parameterType="java.lang.Integer" resultMap="Product">
+    SELECT
+      m.id,m.name,m.category,m.storeid,
+      c.id as cid,c.name as cname,c.parentid,
+      p.origin,p.production_date,p.expiration_date,p.note,p.productid,
+      d.description,d.unit,d.price,d.number,d.score,d.status,d.imageurl,d.productid
+    FROM com_product_main m RIGHT JOIN com_product_detail d ON m.id=d.productid
+                            RIGHT  JOIN com_product_category c ON m.category=c.id
+                            RIGHT  JOIN com_product_parameter p ON m.id=p.productid
+    WHERE m.id = #{id,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="queryProductListToMap" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    SELECT
+      m.id,m.name,
+      c.name as category,
+      p.origin,p.production_date,p.expiration_date,p.note,
+      d.description,d.unit,d.price,d.number,d.score,d.status,d.imageurl
+    FROM com_product_main m RIGHT JOIN com_product_detail d ON m.id=d.productid
+                            RIGHT  JOIN com_product_category c ON m.category=c.id
+                            RIGHT  JOIN com_product_parameter p ON m.id=p.productid
+
+  </select>
+  <select id="queryProductList" parameterType="cn.tjau.ifarmer.domain.utilEntity.ProductCondition" resultMap="Product">
+    SELECT
+      m.id,m.name,m.category,m.storeid,
+      c.id as cid,c.name as cname,c.parentid,
+      p.origin,p.production_date,p.expiration_date,p.note,p.productid,
+      d.description,d.unit,d.price,d.number,d.score,d.status,d.imageurl,d.productid
+    FROM com_product_main m RIGHT JOIN com_product_detail d ON m.id=d.productid
+                            RIGHT  JOIN com_product_category c ON m.category=c.id
+                            RIGHT  JOIN com_product_parameter p ON m.id=p.productid
+    where 1=1
+    <if test="storeid != null">
+      AND storeid = #{storeid}
+    </if>
+    <if test="category != null">
+      AND category = #{category}
+    </if>
+    <if test="name != null">
+      AND m.name like concat ('%',#{name},'%')
+    </if>
+
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from com_product_main
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from com_product_main
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.tjau.ifarmer.domain.Product">
+    insert into com_product_main (id, name, category, 
+      storeid)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, 
+      #{storeid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.Product">
+    insert into com_product_main
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="storeid != null">
+        storeid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null">
+        #{storeid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.tjau.ifarmer.domain.Product">
+    update com_product_main
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null">
+        storeid = #{storeid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.tjau.ifarmer.domain.Product">
+    update com_product_main
+    set name = #{name,jdbcType=VARCHAR},
+      category = #{category,jdbcType=INTEGER},
+      storeid = #{storeid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

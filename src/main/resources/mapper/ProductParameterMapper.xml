@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.ProductParameterMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.ProductParameter">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="production_date" jdbcType="DATE" property="productionDate" />
+    <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="productid" jdbcType="INTEGER" property="productid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, origin, production_date, expiration_date, note, productid
+  </sql>
+  <select id="selectByProductID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from com_product_parameter
+    where productid = #{productid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByProductID" parameterType="java.lang.Integer">
+    delete from com_product_parameter
+    where productid = #{productid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.tjau.ifarmer.domain.ProductParameter">
+    insert into com_product_parameter (id, origin, production_date, 
+      expiration_date, note, productid
+      )
+    values (#{id,jdbcType=INTEGER}, #{origin,jdbcType=VARCHAR}, #{productionDate,jdbcType=DATE}, 
+      #{expirationDate,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.ProductParameter">
+    insert into com_product_parameter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="origin != null">
+        origin,
+      </if>
+      <if test="productionDate != null">
+        production_date,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="productid != null">
+        productid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="origin != null">
+        #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="productionDate != null">
+        #{productionDate,jdbcType=DATE},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null">
+        #{productid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByProductIDSelective" parameterType="cn.tjau.ifarmer.domain.ProductParameter">
+    update com_product_parameter
+    <set>
+      <if test="origin != null">
+        origin = #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="productionDate != null">
+        production_date = #{productionDate,jdbcType=DATE},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productid = #{productid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByProductID" parameterType="cn.tjau.ifarmer.domain.ProductParameter">
+    update com_product_parameter
+    set origin = #{origin,jdbcType=VARCHAR},
+      production_date = #{productionDate,jdbcType=DATE},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
+    where productid = #{productid,jdbcType=INTEGER}
+  </update>
+</mapper>

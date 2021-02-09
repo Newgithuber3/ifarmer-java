@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.SellerInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.SellerInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="storename" jdbcType="VARCHAR" property="storename" />
+    <result column="score" jdbcType="REAL" property="score" />
+    <result column="regist_time" jdbcType="DATE" property="registTime" />
+    <result column="hostid" jdbcType="INTEGER" property="hostid" />
+    <result column="storeid" jdbcType="INTEGER" property="storeid" />
+    <result column="turnover" jdbcType="DOUBLE" property="turnover" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, storename, score, regist_time, hostid, storeid, turnover
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mer_seller_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mer_seller_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.tjau.ifarmer.domain.SellerInfo">
+    insert into mer_seller_info (id, storename, score, 
+      regist_time, hostid, storeid, 
+      turnover)
+    values (#{id,jdbcType=INTEGER}, #{storename,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, 
+      #{registTime,jdbcType=DATE}, #{hostid,jdbcType=INTEGER}, #{storeid,jdbcType=INTEGER}, 
+      #{turnover,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.SellerInfo">
+    insert into mer_seller_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="storename != null">
+        storename,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="registTime != null">
+        regist_time,
+      </if>
+      <if test="hostid != null">
+        hostid,
+      </if>
+      <if test="storeid != null">
+        storeid,
+      </if>
+      <if test="turnover != null">
+        turnover,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="storename != null">
+        #{storename,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=REAL},
+      </if>
+      <if test="registTime != null">
+        #{registTime,jdbcType=DATE},
+      </if>
+      <if test="hostid != null">
+        #{hostid,jdbcType=INTEGER},
+      </if>
+      <if test="storeid != null">
+        #{storeid,jdbcType=INTEGER},
+      </if>
+      <if test="turnover != null">
+        #{turnover,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByStoreIDSelective" parameterType="cn.tjau.ifarmer.domain.SellerInfo">
+    update mer_seller_info
+    <set>
+      <if test="storename != null">
+        storename = #{storename,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=REAL},
+      </if>
+      <if test="registTime != null">
+        regist_time = #{registTime,jdbcType=DATE},
+      </if>
+      <if test="hostid != null">
+        hostid = #{hostid,jdbcType=INTEGER},
+      </if>
+      <if test="turnover != null">
+        turnover = #{turnover,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where storeid = #{storeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.tjau.ifarmer.domain.SellerInfo">
+    update mer_seller_info
+    set storename = #{storename,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
+      regist_time = #{registTime,jdbcType=DATE},
+      hostid = #{hostid,jdbcType=INTEGER},
+      storeid = #{storeid,jdbcType=INTEGER},
+      turnover = #{turnover,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
