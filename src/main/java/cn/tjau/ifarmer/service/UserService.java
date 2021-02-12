@@ -14,10 +14,13 @@ public interface UserService {
 
     UserLogin doLogin(String username, String password);
     Boolean register(UserLogin userLogin);
+    Boolean addUser(UserLogin login,UserInfo userInfo);
     Boolean updateUserInfo(UserInfo userInfo);
+    Boolean updateUserLogin(UserLogin login);
     Boolean delete(Integer uid);
     PageInfo<UserInfo> queryUserList(UserInfo user,Integer pageNum,Integer pageSize);
     UserInfo queryUserByID(Integer uid);
+    UserLogin queryUserLogin(Integer id);
     Admin adminLogin(String username, String password);
 
 

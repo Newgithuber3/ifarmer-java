@@ -59,6 +59,28 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public Boolean addUser(UserLogin login, UserInfo userInfo) {
+
+        if (login != null && userInfo!=null) {
+            UserLogin select = userLoginMapper.selectByID(login.getId());
+            if (select == null) {
+                try {
+                    userLoginMapper.insertSelective(login);
+                    userInfoMapper.insertSelective(userInfo);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public Boolean updateUserInfo(UserInfo userInfo) {
         UserInfo userInfo1 = null;
         try {
@@ -80,6 +102,26 @@ public class UserServiceImp implements UserService {
 
 
         return true;
+    }
+
+    @Override
+    public Boolean updateUserLogin(UserLogin login) {
+        try {
+            UserLogin select = userLoginMapper.selectByID(login.getId());
+            if (select!=null){
+                try {
+                    userLoginMapper.updateSelective(login);
+                    return true;
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return false;
     }
 
     @Override
@@ -122,10 +164,21 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserLogin queryUserLogin(Integer id) {
+        UserLogin login= null;
+        try {
+             login = userLoginMapper.selectByID(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return login;
+    }
+
+    @Override
     public Admin adminLogin(String username, String password) {
         try {
             return adminMapper.selectByUsernameAndPassword(username, password);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
