@@ -13,6 +13,8 @@ public interface SellerLoginMapper {
 
     int insertSelective(SellerLogin record);
 
+    int selectRunningCount();
+
     SellerLogin selectByID(Integer id);
 
     SellerLogin selectByNameAndPassword(String name,String password);

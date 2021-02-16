@@ -83,11 +83,18 @@ public class SellerServiceImp implements SellerService {
     }
 
     @Override
+    public int queryRunningCount() {
+
+        return sellerLoginMapper.selectRunningCount();
+    }
+
+    @Override
     public PageInfo<SellerLogin> querySellerList(Integer pageNum,Integer pageSize) {
         try {
             PageHelper.startPage(pageNum,pageSize);
             List<SellerLogin> sellerLogins = sellerLoginMapper.selectSellerList();
             PageInfo<SellerLogin> pageInfo = new PageInfo<>(sellerLogins);
+            System.out.println(pageInfo);
             return pageInfo;
         }catch (Exception e){
             e.printStackTrace();

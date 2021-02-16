@@ -12,6 +12,7 @@ public interface SellerService {
     Boolean addSeller(SellerLogin sellerLogin);
     Boolean updateSellerInfo(SellerInfo sellerInfo);
     Boolean updateSellerStatus(Integer sellerID,String status,String statusMsg);
+    int queryRunningCount();
     PageInfo<SellerLogin> querySellerList(Integer pageNum, Integer  pageSize);
     SellerLogin querySellerByID(Integer id);
     List<SellerLogin> querySellerByName(String name);

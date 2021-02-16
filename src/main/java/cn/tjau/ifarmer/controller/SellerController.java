@@ -39,7 +39,9 @@ public class SellerController {
                    @RequestParam(value = "password")String password){
         SellerLogin sellerLogin = sellerService.querySellerByNameAndPassword(loginName, password);
         if (sellerLogin!=null){
-            return R.ok().data("user",sellerLogin);
+            if(sellerLogin.getStatus().equals("正常")) {
+                return R.ok().data("user", sellerLogin);
+            }
         }
         return R.error().message("登录失败");
     }
@@ -47,13 +49,19 @@ public class SellerController {
     @GetMapping(value = "/queryByName")
     public R queryByName(@RequestParam(value = "storeName") String storeName){
         List<SellerLogin> sellerLogins = sellerService.querySellerByName(storeName);
-        return R.ok().data("seller",sellerLogins);
+        return R.ok().data("sellers",sellerLogins);
     }
 
     @GetMapping(value = "/queryByID")
     public R queryByID(@RequestParam(value = "seller ID") Integer id){
         SellerLogin sellerLogin = sellerService.querySellerByID(id);
         return R.ok().data("seller",sellerLogin);
+    }
+
+    @GetMapping(value = "/runningCount")
+    public R queryRunningCount(){
+        int i = sellerService.queryRunningCount();
+        return R.ok().data("runningCount", i);
     }
 
     @GetMapping(value = "/sellerList")
@@ -77,7 +85,7 @@ public class SellerController {
     @GetMapping(value = "/updateStatus")
     public R updateStatus(@RequestParam(value = "sellerID") Integer sellerID,
                           @RequestParam(value = "status") String status,
-                          @RequestParam(value = "status") String statusMsg){
+                          @RequestParam(value = "statusMsg") String statusMsg){
         Boolean flag = sellerService.updateSellerStatus(sellerID, status, statusMsg);
         if (flag){
             return R.ok();

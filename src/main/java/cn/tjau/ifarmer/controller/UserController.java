@@ -8,11 +8,11 @@ import cn.tjau.ifarmer.service.UserService;
 import cn.tjau.ifarmer.utils.DateUtils;
 import cn.tjau.ifarmer.utils.R;
 import cn.tjau.ifarmer.utils.UUIDUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Map;
 
 
@@ -107,12 +107,14 @@ public class UserController {
     }
 
     @PostMapping(value = "/userList")
-    public R userList(UserInfo user,
-                      @RequestParam(value = "pageNum", defaultValue = "1") String pageNum,
-                      @RequestParam(value = "pageSize", defaultValue = "6") String pageSize) {
-        System.out.println("shoudao:" + user);
-        System.out.println(pageNum + pageSize);
-        PageInfo<UserInfo> pageInfo = userService.queryUserList(user, Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+    public R userList(@RequestBody JSONObject params) {
+        System.out.println(params);
+        Integer pageSize =(Integer) params.get("pageSize");
+        Integer pageNum = (Integer) params.get("pageNum");
+        UserInfo user = (UserInfo) params.get("user");
+        System.out.println(pageNum+":"+pageSize);
+        System.out.println("user"+user);
+        PageInfo<UserInfo> pageInfo = userService.queryUserList(user, pageNum,pageSize);
         return R.ok().data("pageInfo", pageInfo);
     }
 

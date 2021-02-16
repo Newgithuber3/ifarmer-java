@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/ifarmer?serverTimezone=UTC&characterEncoding=utf8
+    url: jdbc:mysql://82.156.108.251/ifarmer?serverTimezone=UTC&characterEncoding=utf8
     username: root
     password: root
     # 使用druid数据源
