@@ -2,7 +2,6 @@ package cn.tjau.ifarmer.mapper;
 
 import cn.tjau.ifarmer.domain.Order;
 import cn.tjau.ifarmer.domain.utilEntity.OrderCondition;
-import lombok.Data;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;

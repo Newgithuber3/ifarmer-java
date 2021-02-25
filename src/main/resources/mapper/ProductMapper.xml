@@ -84,19 +84,22 @@
                             RIGHT  JOIN com_product_category c ON m.category=c.id
                             RIGHT  JOIN com_product_parameter p ON m.id=p.productid
     where 1=1
-    <if test="storeid != null">
-      AND storeid = #{storeid}
+    <if test="productID != null">
+      and m.id = #{productID}
+    </if>
+    <if test="storeID != null">
+      AND m.storeid = #{storeID,jdbcType=INTEGER}
     </if>
     <if test="category != null">
       AND category = #{category}
     </if>
-    <if test="name != null">
+    <if test="name != null and name!=''">
       AND m.name like concat ('%',#{name},'%')
     </if>
 
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from com_product_main
     where id = #{id,jdbcType=INTEGER}
@@ -106,9 +109,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.tjau.ifarmer.domain.Product">
-    insert into com_product_main (id, name, category, 
+    insert into com_product_main (id, name, category,
       storeid)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER},
       #{storeid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.Product">

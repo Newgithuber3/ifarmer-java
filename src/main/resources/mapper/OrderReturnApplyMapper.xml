@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tjau.ifarmer.mapper.OrderReturnApplyMapper">
+    <resultMap id="BaseResultMap" type="cn.tjau.ifarmer.domain.OrderReturnApply">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="apply_status" jdbcType="VARCHAR" property="applyStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+        <result column="user_account" jdbcType="INTEGER" property="userAccount"/>
+        <result column="apply_reason" jdbcType="VARCHAR" property="applyReason"/>
+        <result column="question" jdbcType="VARCHAR" property="question"/>
+        <result column="proof_img" jdbcType="VARCHAR" property="proofImg"/>
+        <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime"/>
+        <result column="operate_note" jdbcType="VARCHAR" property="operateNote"/>
+        <result column="receiver_address" jdbcType="INTEGER" property="receiverAddress"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderID"/>
+        <result column="store_id" jdbcType="INTEGER" property="storeID"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , apply_status, apply_time, user_account, apply_reason, question, proof_img, operate_time, operate_note,receiver_address,order_id,store_id
+    </sql>
+    <select id="selectByID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from com_order_returnapply
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectListByCondition" parameterType="cn.tjau.ifarmer.domain.utilEntity.ReturnApplyCondition"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from com_order_returnapply
+        where 1 = 1
+        <if test="applyStatus != null and applyStatus!=''">
+            AND apply_status = #{applyStatus}
+        </if>
+        <if test="id != null ">
+            AND id = #{id}
+        </if>
+        <if test="applyTime != null and applyTime!=''">
+            AND date(apply_time) = #{applyTime}
+        </if>
+        <if test="storeID != null and storeID!=''">
+            AND store_id = #{storeID}
+        </if>
+    </select>
+    <delete id="deleteByID" parameterType="java.lang.Integer">
+        delete
+        from com_order_returnapply
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="cn.tjau.ifarmer.domain.Order">
+        insert into com_order_returnapply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="applyStatus != null">
+                apply_status,
+            </if>
+            <if test="applyTime != null">
+                apply_time,
+            </if>
+            <if test="userAccount != null">
+                user_account,
+            </if>
+            <if test="applyReason != null">
+                apply_reason,
+            </if>
+            <if test="question != null">
+                question,
+            </if>
+            <if test="proofImg != null">
+                proof_img,
+            </if>
+            <if test="operateTime != null">
+                operate_time,
+            </if>
+            <if test="operateNote != null">
+                operate_note,
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address,
+            </if>
+            <if test="orderID != null">
+                order_id,
+            </if>
+            <if test="storeID != null">
+                store_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="applyStatus != null">
+                #{applyStatus},
+            </if>
+            <if test="applyTime != null">
+                #{applyTime},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount},
+            </if>
+            <if test="applyReason != null">
+                #{applyReason},
+            </if>
+            <if test="question != null">
+                #{question},
+            </if>
+            <if test="proofImg != null">
+                #{proofImg},
+            </if>
+            <if test="operateTime != null">
+                #{operateTime},
+            </if>
+            <if test="operateNote != null">
+                #{operateNote},
+            </if>
+            <if test="receiverAddress != null">
+                #{receiverAddress},
+            </if>
+            <if test="orderID != null">
+                #{orderID},
+            </if>
+            <if test="storeID != null">
+                #{storeID},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.tjau.ifarmer.domain.Order">
+        update com_order_returnapply
+        <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="applyStatus != null">
+                apply_status=#{applyStatus},
+            </if>
+            <if test="applyTime != null">
+                apply_time=#{applyTime},
+            </if>
+            <if test="userAccount != null">
+                user_account=#{userAccount},
+            </if>
+            <if test="applyReason != null">
+                apply_reason=#{applyReason},
+            </if>
+            <if test="question != null">
+                question=#{question},
+            </if>
+            <if test="proofImg != null">
+                proof_img = #{proofImg},
+            </if>
+            <if test="operateTime != null">
+                operate_time = #{operateTime},
+            </if>
+            <if test="operateNote != null">
+                operate_note = #{operateNote},
+            </if>
+            <if test="receiverAddress != null">
+                receiveraddress = #{receiverAddress},
+            </if>
+            <if test="orderID != null">
+                order_id = #{orderID},
+            </if>
+            <if test="storeID != null">
+                store_id = #{storeID},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

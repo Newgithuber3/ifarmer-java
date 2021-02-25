@@ -55,7 +55,7 @@
         from mer_seller_login l left join mer_seller_info i on l.id=i.storeid
         left join com_product_category p on i.main_category = p.id
         left join mer_seller_category s on i.store_category = s.id
-        where l.name like concat ('%',#{name},'%')
+        where i.storename like concat ('%',#{0},'%')
     </select>
     <select id="selectByNameAndPassword" resultMap="SellerMap">
         select

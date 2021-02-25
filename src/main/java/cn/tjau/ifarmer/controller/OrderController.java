@@ -10,7 +10,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -34,7 +33,7 @@ public class OrderController {
 
     @PostMapping(value = "/orderList")
     public R queryOrderList(@RequestBody OrderCondition condition){
-        System.out.println(condition.getCreateTime());
+        System.out.println(condition);
         PageInfo<Order> orderPageInfo = orderService.queryOrderListByCondition(condition, condition.getPageNum(), condition.getPageSize());
         return R.ok().data("pageInfo",orderPageInfo);
     }

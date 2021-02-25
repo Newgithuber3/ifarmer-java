@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class ProductCondition {
-    private Integer storeid;
+    private Integer productID;
+    private Integer storeID;
     private Integer category;
     private String name;
-    private Integer pageNum;
-    private Integer pageSize;
+    private Integer pageNum = 1 ;
+    private Integer pageSize = 5;
 
 }

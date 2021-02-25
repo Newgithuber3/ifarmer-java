@@ -16,10 +16,11 @@ public class ProductController {
 
     @PostMapping(value = "/addProduct")
     public R addProduct(@RequestBody Product product){
-        Boolean flag = productService.addProduct(product);
+        System.out.println(product);
+        /*Boolean flag = productService.addProduct(product);
         if(flag){
             return R.ok();
-        }
+        }*/
         return R.error();
     }
 
@@ -50,6 +51,7 @@ public class ProductController {
 
     @PostMapping(value = "/productList")
     public R queryProductList(@RequestBody ProductCondition condition){
+        System.out.println(condition);
 
         PageInfo<Product> productPageInfo = productService.queryProductList(condition,condition.getPageNum(),condition.getPageSize());
         return R.ok().data("pageInfo",productPageInfo);
