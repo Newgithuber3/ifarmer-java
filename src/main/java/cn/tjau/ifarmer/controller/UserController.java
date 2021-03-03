@@ -1,11 +1,13 @@
 package cn.tjau.ifarmer.controller;
 
+import cn.tjau.ifarmer.annotation.PassToken;
 import cn.tjau.ifarmer.domain.Admin;
 import cn.tjau.ifarmer.domain.UserInfo;
 import cn.tjau.ifarmer.domain.UserLogin;
 import cn.tjau.ifarmer.domain.utilEntity.UserResponse;
 import cn.tjau.ifarmer.service.UserService;
 import cn.tjau.ifarmer.utils.DateUtils;
+import cn.tjau.ifarmer.utils.JwtUtils;
 import cn.tjau.ifarmer.utils.R;
 import cn.tjau.ifarmer.utils.UUIDUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -23,16 +25,18 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
+    @PassToken
     @PostMapping(value = "/login")
     public R login(@RequestBody UserLogin user) {
         System.out.println("shoudao");
         System.out.println(user.getUsername() + user.getPassword());
         UserLogin userLogin = userService.doLogin(user.getUsername(), user.getPassword());
         if (userLogin != null) {
-            return R.ok().data("user", userLogin);
+            userLogin.setPassword("xxxxxxx");
+            String token = JwtUtils.sign(userLogin.getId().toString());
+            return R.ok().data("user", userLogin).data("token",token);
         }
-        return R.error();
+        return R.error().message("用户名或密码错误");
     }
 
     @PostMapping(value = "/register")
@@ -150,6 +154,7 @@ public class UserController {
         Admin login = userService.adminLogin(admin.getUsername(), admin.getPassword());
         System.out.println(login);
         if (login != null) {
+            login.setPassword("xxxxxxx");
             return R.ok().data("user", login);
         }
         return R.error().message("用户名或密码错误！");

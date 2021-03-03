@@ -1,7 +1,6 @@
 package cn.tjau.ifarmer.controller;
 
 import cn.tjau.ifarmer.domain.Order;
-import cn.tjau.ifarmer.domain.UserInfo;
 import cn.tjau.ifarmer.domain.utilEntity.OrderCondition;
 import cn.tjau.ifarmer.domain.utilEntity.OrderRequest;
 import cn.tjau.ifarmer.service.OrderService;
@@ -9,7 +8,6 @@ import cn.tjau.ifarmer.utils.R;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 @CrossOrigin
 @RestController

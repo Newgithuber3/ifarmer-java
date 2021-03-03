@@ -1,4 +1,5 @@
 package cn.tjau.ifarmer.controller;
+import cn.tjau.ifarmer.annotation.PassToken;
 import cn.tjau.ifarmer.domain.Product;
 import cn.tjau.ifarmer.domain.utilEntity.ProductCondition;
 import cn.tjau.ifarmer.service.ProductService;
@@ -43,12 +44,14 @@ public class ProductController {
         return R.error();
     }
 
+    @PassToken
     @GetMapping(value = "/queryProduct")
     public R queryProduct(@RequestParam(value = "id") String id){
         Product product = productService.queryProductByID(Integer.parseInt(id));
         return R.ok().data("product",product);
     }
 
+    @PassToken
     @PostMapping(value = "/productList")
     public R queryProductList(@RequestBody ProductCondition condition){
         System.out.println(condition);
