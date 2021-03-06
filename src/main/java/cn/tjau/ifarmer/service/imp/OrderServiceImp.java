@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -136,6 +137,22 @@ public class OrderServiceImp implements OrderService {
 
         return pageInfo;
     }
+
+    @Override
+    public List<Order> queryOrderListByIds(String[] ids) {
+        List<Order> list = new ArrayList<>();
+        try {
+            for (String id : ids) {
+                Order order = queryOrder(Long.valueOf(id));
+                list.add(order);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public Order queryOrder(Long id) {

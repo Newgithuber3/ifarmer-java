@@ -5,6 +5,10 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 封装统一响应格式类
+ * 采用链式编程
+ */
 @Data
 public class R {
     private Boolean success;

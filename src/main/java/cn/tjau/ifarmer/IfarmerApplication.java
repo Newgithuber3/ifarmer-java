@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Properties;
 
+/**
+ * 项目启动类
+ */
 @SpringBootApplication
 public class IfarmerApplication {
 

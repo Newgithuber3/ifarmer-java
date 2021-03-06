@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Date;
@@ -48,8 +47,7 @@ public class JwtUtils {
      */
     public static String getUserId(String token) {
         try {
-            String userId = JWT.decode(token).getAudience().get(0);
-            return userId;
+            return JWT.decode(token).getAudience().get(0);
         } catch (JWTDecodeException e) {
             return null;
         }

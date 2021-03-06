@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,23 @@ public class CartServiceImp implements CartService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<CartListResponse> queryOrderListByIds(String[] ids) {
+        List<CartListResponse> list =new ArrayList<>();
+        try{
+            for (String id :ids){
+                Cart cart = cartMapper.selectByPrimaryKey(Integer.valueOf(id));
+                Product product = productMapper.queryProductByID(cart.getProductid());
+                CartListResponse cs = new CartListResponse(cart, product.getName(), product.getProductDetail().getImageurl());
+                list.add(cs);
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -93,7 +111,6 @@ public class CartServiceImp implements CartService {
                 e.printStackTrace();
                 return false;
             }
-
             return true;
 
         }

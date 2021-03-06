@@ -13,5 +13,6 @@ import java.util.Map;
 public interface OrderService {
     Boolean makeOrder(Integer addressID,List<Integer> cartIdList)throws Exception;
     PageInfo<Order> queryOrderListByCondition(OrderCondition condition, Integer pageNUm, Integer pageSize );
+    List<Order> queryOrderListByIds(String [] ids);
     Order queryOrder(Long id);
 }

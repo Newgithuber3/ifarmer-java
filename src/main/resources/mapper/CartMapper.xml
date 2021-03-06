@@ -117,19 +117,19 @@
   <update id="updateSelectiveByID" parameterType="cn.tjau.ifarmer.domain.Cart">
     update cl_cart
     <set>
-      <if test="uid != null">
+      <if test="uid != null and uid != ''">
         uid = #{uid,jdbcType=INTEGER},
       </if>
-      <if test="addtime != null">
+      <if test="addtime != null and addtime !=''">
         addtime = #{addtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="productid != null">
+      <if test="productid != null and productid != ''">
         productid = #{productid,jdbcType=INTEGER},
       </if>
-      <if test="number != null">
+      <if test="number != null and number !=''">
         number = #{number,jdbcType=INTEGER},
       </if>
-      <if test="price !=null">
+      <if test="price !=null and price!=''">
         price = #{price,jdbcType=DOUBLE},
       </if>
     </set>

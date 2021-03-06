@@ -1,12 +1,20 @@
 package cn.tjau.ifarmer.controller;
 
 import cn.tjau.ifarmer.domain.Cart;
+import cn.tjau.ifarmer.domain.Order;
 import cn.tjau.ifarmer.domain.utilEntity.CartListResponse;
 import cn.tjau.ifarmer.service.CartService;
+import cn.tjau.ifarmer.utils.JwtUtils;
 import cn.tjau.ifarmer.utils.R;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -14,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     @Autowired
     CartService cartService;
+    @Autowired
+    HttpServletRequest request;
 
     @GetMapping(value = "/addCart")
     public R addCart(@RequestParam(value = "uid") String uid,
@@ -33,12 +43,21 @@ public class CartController {
     }
 
     @GetMapping(value = "/cartList")
-    public R queryCartList(@RequestParam(value = "uid") String uid,
-                           @RequestParam(value = "pageNum",defaultValue = "1")String pageNum,
+    public R queryCartList(@RequestParam(value = "pageNum",defaultValue = "1")String pageNum,
                            @RequestParam(value = "pageSize",defaultValue = "6")String pageSize){
-
+        String token = request.getHeader("token");
+        String uid = JwtUtils.getUserId(token);
+        if (Objects.equals(uid, "") || uid == null){
+            return R.error();
+        }
         PageInfo<CartListResponse> cartPageInfo = cartService.queryCartList(Integer.parseInt(uid), Integer.parseInt(pageNum), Integer.parseInt(pageSize));
         return R.ok().data("pageInfo",cartPageInfo);
+    }
+
+    @PostMapping(value = "/carts")
+    public R queryCartListByIds(@RequestBody String[] ids){
+        List<CartListResponse> list = cartService.queryOrderListByIds(ids);
+        return R.ok().data("list",list);
     }
 
     @GetMapping(value = "/delete")
