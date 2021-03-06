@@ -1,17 +1,13 @@
 package cn.tjau.ifarmer.controller;
 
 import cn.tjau.ifarmer.domain.Cart;
-import cn.tjau.ifarmer.domain.Order;
 import cn.tjau.ifarmer.domain.utilEntity.CartListResponse;
 import cn.tjau.ifarmer.service.CartService;
 import cn.tjau.ifarmer.utils.JwtUtils;
 import cn.tjau.ifarmer.utils.R;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
