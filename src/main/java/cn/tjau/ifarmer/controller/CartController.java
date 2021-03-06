@@ -22,9 +22,13 @@ public class CartController {
     HttpServletRequest request;
 
     @GetMapping(value = "/addCart")
-    public R addCart(@RequestParam(value = "uid") String uid,
-                        @RequestParam(value = "productid") String productid,
+    public R addCart(@RequestParam(value = "productid") String productid,
                         @RequestParam(value = "number") String number){
+
+        String uid = JwtUtils.getUserId(request.getHeader("token"));
+        if (uid == null){
+            return R.error();
+        }
         Cart cart = new Cart();
         cart.setUid(Integer.parseInt(uid));
         cart.setProductid(Integer.parseInt(productid));

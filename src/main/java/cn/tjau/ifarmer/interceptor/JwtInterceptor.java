@@ -34,13 +34,13 @@ public class JwtInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
-        System.out.println(2);
         Map<String, Object> map = new HashMap<>();
         // 执行认证
         try {
             if (token == null || Objects.equals(token, "")) {
                 map.put("success",false);
                 map.put("message","用户未登录");
+                map.put("code",50008);
                 String json = new ObjectMapper().writeValueAsString(map);
                 httpServletResponse.setContentType("application/json; charset=utf-8");
                 httpServletResponse.getWriter().println(json);
@@ -51,6 +51,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         } catch (Exception e) {
             map.put("success",false);
             map.put("message","验证身份失败");
+            map.put("code",500012);
             String json = new ObjectMapper().writeValueAsString(map);
             httpServletResponse.setContentType("application/json; charset=utf-8");
             httpServletResponse.getWriter().println(json);

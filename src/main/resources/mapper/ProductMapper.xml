@@ -55,10 +55,12 @@
       m.id,m.name,m.category,m.storeid,
       c.id as cid,c.name as cname,c.parentid,
       p.origin,p.production_date,p.expiration_date,p.note,p.productid,
-      d.description,d.unit,d.price,d.number,d.score,d.status,d.imageurl,d.productid
+      d.description,d.unit,d.price,d.number,d.score,d.status,d.imageurl,d.productid,
+      seller.storename as sname
     FROM com_product_main m RIGHT JOIN com_product_detail d ON m.id=d.productid
                             RIGHT  JOIN com_product_category c ON m.category=c.id
                             RIGHT  JOIN com_product_parameter p ON m.id=p.productid
+                            RIGHT  JOIN mer_seller_info seller ON m.storeid=seller.storeid
     WHERE m.id = #{id,jdbcType=INTEGER}
 
   </select>
