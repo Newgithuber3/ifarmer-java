@@ -6,15 +6,13 @@ import cn.tjau.ifarmer.domain.utilEntity.CartListResponse;
 import cn.tjau.ifarmer.mapper.CartMapper;
 import cn.tjau.ifarmer.mapper.ProductMapper;
 import cn.tjau.ifarmer.service.CartService;
+import cn.tjau.ifarmer.utils.UUIDUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CartServiceImp implements CartService {
@@ -24,7 +22,7 @@ public class CartServiceImp implements CartService {
     ProductMapper productMapper;
 
     @Override
-    public Boolean addCart(Cart cart) {
+    public int addCart(Cart cart) {
         Cart result=null;
         try{
              result = cartMapper.select(cart);
@@ -37,6 +35,7 @@ public class CartServiceImp implements CartService {
         cart.setPrice(product.getProductDetail().getPrice());
         try {
             if (result == null) {
+                cart.setId(UUIDUtils.getUUIDInOrderId());
                 cartMapper.insertSelective(cart);
             } else {
                 Integer number = result.getNumber() + cart.getNumber();
@@ -45,9 +44,9 @@ public class CartServiceImp implements CartService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return 0;
         }
-        return true;
+        return cart.getId();
     }
 
     @Override

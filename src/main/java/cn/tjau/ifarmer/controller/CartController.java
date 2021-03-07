@@ -33,13 +33,14 @@ public class CartController {
         cart.setUid(Integer.parseInt(uid));
         cart.setProductid(Integer.parseInt(productid));
         cart.setNumber(Integer.parseInt(number));
+        int cartID;
         try{
-            cartService.addCart(cart);
+            cartID  = cartService.addCart(cart);
         }catch (Exception e){
             e.printStackTrace();
             return R.error();
         }
-       return R.ok();
+       return R.ok().data("cartID", cartID);
     }
 
     @GetMapping(value = "/cartList")

@@ -18,10 +18,10 @@ public class ProductController {
     @PostMapping(value = "/addProduct")
     public R addProduct(@RequestBody Product product){
         System.out.println(product);
-        /*Boolean flag = productService.addProduct(product);
+        Boolean flag = productService.addProduct(product);
         if(flag){
             return R.ok();
-        }*/
+        }
         return R.error();
     }
 

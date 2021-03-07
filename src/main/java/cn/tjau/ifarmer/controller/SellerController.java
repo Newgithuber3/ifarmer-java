@@ -1,9 +1,11 @@
 package cn.tjau.ifarmer.controller;
 
+import cn.tjau.ifarmer.annotation.PassToken;
 import cn.tjau.ifarmer.domain.SellerInfo;
 import cn.tjau.ifarmer.domain.SellerLogin;
 import cn.tjau.ifarmer.service.SellerService;
 import cn.tjau.ifarmer.utils.DateUtils;
+import cn.tjau.ifarmer.utils.JwtUtils;
 import cn.tjau.ifarmer.utils.R;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -39,14 +41,17 @@ public class SellerController {
         return R.error();
     }
 
+    @PassToken
     @PostMapping(value = "/login")
     public R login(@RequestBody JSONObject params){
-        String loginName =(String) params.get("loginName");
+        String loginName =(String) params.get("name");
         String password = (String) params.get("password");
         SellerLogin sellerLogin = sellerService.querySellerByNameAndPassword(loginName, password);
         if (sellerLogin!=null){
+            sellerLogin.setPassword("xxxxxxx");
+            String token = JwtUtils.sign(sellerLogin.getId().toString());
             if(sellerLogin.getStatus().equals("正常")) {
-                return R.ok().data("status","normal").data("user", sellerLogin);
+                return R.ok().data("status","normal").data("user", sellerLogin).data("token",token);
             }else if(sellerLogin.getStatus().equals("未激活")){
                 return R.ok().data("status","inactive");
             }else {

@@ -39,6 +39,7 @@ public class UserController {
         return R.error().message("用户名或密码错误");
     }
 
+    @PassToken
     @PostMapping(value = "/register")
     public R register(UserLogin user) {
         Boolean flag = userService.register(user);
@@ -148,14 +149,16 @@ public class UserController {
         return R.error();
     }
 
+    @PassToken
     @PostMapping(value = "/adminLogin")
     public R adminLogin(@RequestBody Admin admin) {
         System.out.println(admin);
         Admin login = userService.adminLogin(admin.getUsername(), admin.getPassword());
         System.out.println(login);
         if (login != null) {
+            String token = JwtUtils.sign(admin.getId().toString());
             login.setPassword("xxxxxxx");
-            return R.ok().data("user", login);
+            return R.ok().data("user", login).data("token",token);
         }
         return R.error().message("用户名或密码错误！");
     }

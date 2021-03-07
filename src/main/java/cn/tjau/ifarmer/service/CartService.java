@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public interface CartService {
-    Boolean addCart(Cart cart);
+    int addCart(Cart cart);
     List<CartListResponse> queryOrderListByIds(String [] ids);
     PageInfo<CartListResponse> queryCartList(Integer uid, Integer pageNum, Integer pageSize);
     Boolean deleteCart(Integer cartID);
