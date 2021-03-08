@@ -33,20 +33,23 @@ public class CartServiceImp implements CartService {
         Date now= new Date();
         cart.setAddtime(now);
         cart.setPrice(product.getProductDetail().getPrice());
+        int id;
         try {
             if (result == null) {
                 cart.setId(UUIDUtils.getUUIDInOrderId());
                 cartMapper.insertSelective(cart);
+                id = cart.getId();
             } else {
                 Integer number = result.getNumber() + cart.getNumber();
                 cart.setNumber(number);
                 cartMapper.updateSelective(cart);
+                id = result.getId();
             }
         }catch (Exception e){
             e.printStackTrace();
             return 0;
         }
-        return cart.getId();
+        return id;
     }
 
     @Override
