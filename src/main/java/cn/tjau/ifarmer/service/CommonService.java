@@ -9,4 +9,6 @@ import java.util.List;
 public interface CommonService {
     DeliveryAddress getAddress(Integer addressID);
     List<DeliveryAddress> getUserAddress(Integer uid);
+    Boolean deleteAddress(Integer id);
+    Boolean addAddress(DeliveryAddress address);
 }

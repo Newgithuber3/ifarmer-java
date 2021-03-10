@@ -40,4 +40,24 @@ public class CommonController {
         }
         return R.error();
     }
+
+    @GetMapping(value = "/deleteAddress")
+    public R deleteAddress(@RequestParam(value = "id")Integer id ){
+        Boolean flag = commonService.deleteAddress(id);
+        if (flag) {
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    @PostMapping (value = "/addAddress")
+    public R addAddress(@RequestBody DeliveryAddress address ){
+        String userId = JwtUtils.getUserId(request.getHeader("token"));
+        address.setUid(Integer.parseInt(userId));
+        Boolean flag = commonService.addAddress(address);
+        if (flag) {
+            return R.ok();
+        }
+        return R.error();
+    }
 }

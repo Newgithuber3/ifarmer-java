@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 
@@ -22,6 +23,8 @@ import java.util.Map;
 @RestController()
 @RequestMapping(value = "/user")
 public class UserController {
+    @Autowired
+    HttpServletRequest request;
     @Autowired
     UserService userService;
 
@@ -41,8 +44,12 @@ public class UserController {
 
     @PassToken
     @PostMapping(value = "/register")
-    public R register(UserLogin user) {
-        Boolean flag = userService.register(user);
+    public R register(@RequestBody UserLogin user) {
+        user.setId(UUIDUtils.getUUIDInOrderId());
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername(user.getUsername());
+        userInfo.setUid(user.getId());
+        Boolean flag = userService.addUser(user,userInfo);
         if (flag) {
             return R.ok();
         }
@@ -77,8 +84,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/updateUserInfo")
-    public R updateUserInfo(UserInfo user) {
+    public R updateUserInfo(@RequestBody UserInfo user) {
         System.out.println(user);
+        String userId = JwtUtils.getUserId(request.getHeader("token"));
+        user.setUid(Integer.parseInt(userId));
         Boolean flag = userService.updateUserInfo(user);
         if (flag) {
             return R.ok();
@@ -135,7 +144,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/queryUserInfo")
-    public R queryUser(@RequestParam(value = "uid") String uid) {
+    public R queryUser() {
+        String uid = JwtUtils.getUserId(request.getHeader("token"));
         UserInfo userInfo = userService.queryUserByID(Integer.parseInt(uid));
         return R.ok().data("user", userInfo);
     }
@@ -156,7 +166,7 @@ public class UserController {
         Admin login = userService.adminLogin(admin.getUsername(), admin.getPassword());
         System.out.println(login);
         if (login != null) {
-            String token = JwtUtils.sign(admin.getId().toString());
+            String token = JwtUtils.sign(login.getId().toString());
             login.setPassword("xxxxxxx");
             return R.ok().data("user", login).data("token",token);
         }

@@ -35,4 +35,26 @@ public class CommonServiceImp implements CommonService {
         }
         return null;
     }
+
+    @Override
+    public Boolean deleteAddress(Integer id) {
+        try {
+             addressMapper.deleteByPrimaryKey(id);
+             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean addAddress(DeliveryAddress address) {
+        try {
+            addressMapper.insertSelective(address);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

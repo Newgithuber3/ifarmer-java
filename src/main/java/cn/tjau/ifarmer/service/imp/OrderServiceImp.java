@@ -72,6 +72,7 @@ public class OrderServiceImp implements OrderService {
                 i = orderMapper.insertSelective(order);
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
             if (i == 0) {
                 throw new Exception("创建订单失败!");
@@ -87,6 +88,7 @@ public class OrderServiceImp implements OrderService {
             try {
                 orderDetailMapper.insertSelective(orderDetail);
             } catch (Exception e) {
+                orderMapper.deleteByPrimaryKey(order.getId());
                 throw new Exception("写入订单细节失败");
             }
 

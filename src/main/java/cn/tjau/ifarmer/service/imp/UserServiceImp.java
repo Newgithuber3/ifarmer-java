@@ -50,12 +50,12 @@ public class UserServiceImp implements UserService {
         if (user == null) {
             try {
                 userLoginMapper.insertSelective(userLogin);
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
